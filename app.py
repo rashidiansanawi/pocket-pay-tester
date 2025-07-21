@@ -143,4 +143,8 @@ def index():
         hash_response=hash_response,
         create_response=create_response,
         error_message=error_message,
-        success_message=
+        success_message=success_message
+    )
+
+if __name__ == '__main__':
+    app.run(debug=True)
