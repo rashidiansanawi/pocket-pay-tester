@@ -46,12 +46,10 @@ def index():
 
     if request.method == 'POST':
         action = request.form.get('action')
-        api_key = request.form.get('api_key', API_KEY_EXAMPLE)
-        salt = request.form.get('salt', SALT_EXAMPLE)
         try:
             # Step 1: Get New Order ID
             if action in ['get_new_order_id', 'process_payment_flow']:
-                payload = {"api_key": api_key, "salt": salt}
+                payload = {"api_key": api_key_val, "salt": salt_val}
                 order_id_response = post_api("payments/getNewOrderId", payload)
                 order_id = order_id_response.get('new_id')
                 if order_id:
@@ -61,26 +59,18 @@ def index():
 
             # Step 2: Generate Hash Data
             if order_id and action == 'process_payment_flow':
-                subamount_1 = safe_int(request.form.get('subamount_1'), 100)
-                subamount_1_label = request.form.get('subamount_1_label', 'Test Order')
-                order_info = request.form.get('order_info', 'Payment for test transaction.')
-                order_desc = request.form.get('order_desc', 'Description')
-                return_url = request.form.get('return_url', 'https://www.threegmedia.com/')
-                callback_url = request.form.get('callback_url', 'http://pocket-api.threeg.asia/callbase')
-                discount = safe_int(request.form.get('discount'), 0)
-
                 hash_payload = {
-                    "api_key": api_key,
-                    "salt": salt,
-                    "subamount_1": subamount_1,
-                    "subamount_1_label": subamount_1_label,
+                    "api_key": api_key_val,
+                    "salt": salt_val,
+                    "subamount_1": subamount_1_val,
+                    "subamount_1_label": subamount_1_label_val,
                     "subamount_2": 0, "subamount_3": 0, "subamount_4": 0, "subamount_5": 0,
                     "order_id": order_id,
-                    "order_info": order_info,
-                    "order_desc": order_desc,
-                    "return_url": return_url,
-                    "callback_url": callback_url,
-                    "discount": discount
+                    "order_info": order_info_val,
+                    "order_desc": order_desc_val,
+                    "return_url": return_url_val,
+                    "callback_url": callback_url_val,
+                    "discount": discount_val
                 }
                 hash_response = post_api("payments/hash", hash_payload)
                 hashed_data = hash_response.get('hashed_data')
@@ -92,18 +82,18 @@ def index():
             # Step 3: Create Payment Link
             if hashed_data and action == 'process_payment_flow':
                 create_payload = {
-                    "api_key": api_key,
-                    "salt": salt,
+                    "api_key": api_key_val,
+                    "salt": salt_val,
                     "hashed_data": hashed_data,
-                    "subamount_1": subamount_1,
-                    "subamount_1_label": subamount_1_label,
+                    "subamount_1": subamount_1_val,
+                    "subamount_1_label": subamount_1_label_val,
                     "subamount_2": 0, "subamount_3": 0, "subamount_4": 0, "subamount_5": 0,
                     "order_id": order_id,
-                    "order_info": order_info,
-                    "order_desc": order_desc,
-                    "return_url": return_url,
-                    "callback_url": callback_url,
-                    "discount": discount,
+                    "order_info": order_info_val,
+                    "order_desc": order_desc_val,
+                    "return_url": return_url_val,
+                    "callback_url": callback_url_val,
+                    "discount": discount_val,
                     "promo": "", "promo_code": ""
                 }
                 create_response = post_api("payments/create", create_payload)

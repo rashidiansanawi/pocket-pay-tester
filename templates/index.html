@@ -26,28 +26,28 @@
         <div class="error">{{ error_message }}</div>
         {% endif %}
         {% if success_message %}
-        <div class="success">{{ success_message }}</div>
+        <div class="success"><pre>{{ success_message }}</pre></div>
         {% endif %}
 
         <form method="POST" action="{{ url_for('index') }}">
-            <div class="section">
-                <h2>Global API Configuration</h2>
+            <fieldset class="section">
+                <legend>Global API Configuration</legend>
                 <label for="api_key">API Key:</label>
                 <input type="text" id="api_key" name="api_key" value="{{ api_key }}" required>
                 <label for="salt">Salt:</label>
                 <input type="text" id="salt" name="salt" value="{{ salt }}" required>
                 
-            </div>
+            </fieldset>
 
-            <div class="section">
-                <h2>Payment Details</h2>
+            <fieldset class="section">
+                <legend>Payment Details</legend>
                 <label for="subamount_1">Subamount 1 (cents):</label>
                 <input type="number" id="subamount_1" name="subamount_1" value="{{ subamount_1 }}" required>
                 <label for="subamount_1_label">Subamount 1 Label:</label>
                 <input type="text" id="subamount_1_label" name="subamount_1_label" value="{{ subamount_1_label }}" required>
                 <label for="order_info">Order Info:</label>
                 <input type="text" id="order_info" name="order_info" value="{{ order_info }}" required>
-                <label for="order_desc">Order Description Label:</label>
+                <label for="order_desc">Order Description:</label>
                 <input type="text" id="order_desc" name="order_desc" value="{{ order_desc }}" required>
                 <label for="return_url">Return URL:</label>
                 <input type="text" id="return_url" name="return_url" value="{{ return_url }}" required>
@@ -55,7 +55,7 @@
                 <input type="text" id="callback_url" name="callback_url" value="{{ callback_url }}" required>
                 <label for="discount">Discount (cents):</label>
                 <input type="number" id="discount" name="discount" value="{{ discount }}" required>
-            </div>
+            </fieldset>
 
             <button type="submit" name="action" value="get_new_order_id">1. Get New Order ID</button>
             <button type="submit" name="action" value="process_payment_flow">2. Process Full Payment Flow (Get Order ID, Hash, Create)</button>
